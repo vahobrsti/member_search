@@ -23,5 +23,5 @@ if($_SERVER['REQUEST_METHOD']==='GET') {
     $link->close();
 }else{
     http_response_code(404);
-    echo 'Bad request';
+    die('Bad request');
 }
