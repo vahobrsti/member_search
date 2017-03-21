@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>my angular app</title>
     <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.15/angular-filter.min.js"></script>
     <script type="text/javascript">
         (function(){
-            var app=angular.module('openCollege',[]);
+            var app=angular.module('openCollege',['angular.filter']);
             app.controller('client',function ($scope,$http) {
                 $http.get('/open_college/api.php').then(function (response) {
                     $scope.members=response.data;
@@ -21,7 +22,7 @@
 
 <div ng-app="openCollege">
     <div ng-controller="client">
-        <input type="text" ng-model="searchParam">
+        <label>Enter first name or last name or phone<input type="text" ng-model="search"></label>
         <table>
             <thead>
             <th>first name</th>
@@ -32,7 +33,7 @@
             <th>address</th>
             <th>email</th>
             </thead>
-            <tr ng-repeat="member in members">
+            <tr ng-repeat="member in members | filterBy:['first_name', 'last_name','phone']:search">
                 <td>{{member.first_name}}</td>
                 <td>{{member.last_name}}</td>
                 <td>{{member.phone}}</td>
