@@ -21,7 +21,27 @@
 
 <div ng-app="openCollege">
     <div ng-controller="client">
-
+        <input type="text" ng-model="searchParam">
+        <table>
+            <thead>
+            <th>first name</th>
+            <th>last name</th>
+            <th>phone</th>
+            <th>member type</th>
+            <th>expiry date</th>
+            <th>address</th>
+            <th>email</th>
+            </thead>
+            <tr ng-repeat="member in members">
+                <td>{{member.first_name}}</td>
+                <td>{{member.last_name}}</td>
+                <td>{{member.phone}}</td>
+                <td>{{member.member_type}}</td>
+                <td>{{member.expiry_date}}</td>
+                <td>{{member.address}}</td>
+                <td>{{member.mail_address}}</td>
+            </tr>
+        </table>
     </div>
 </div>
 
