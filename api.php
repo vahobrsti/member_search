@@ -1,5 +1,5 @@
 <?php
-if($_SERVER['REQUEST_METHOD']==='GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $link = new mysqli('localhost', 'root', 'mysql', 'open');
     if ($link->connect_errno) {
         die("Failed to connect to MySQL: " . $link->connect_error);
@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD']==='GET') {
     $sql = "SELECT * FROM `members`";
     $res = $link->query($sql);
 
-    if($res===false){
+    if ($res === false) {
         http_response_code(404);
         die($link->error);
     }
@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD']==='GET') {
     header('Content-Type: application/json');
     echo json_encode($allRecords);
     $link->close();
-}else{
+} else {
     http_response_code(404);
     die('Bad request');
 }

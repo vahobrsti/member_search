@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>my angular app</title>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            var app=angular.module('openCollege',[]);
+            app.controller('client',function ($scope,$http) {
+                $http.get('/open_college/api.php').then(function (response) {
+                    $scope.members=response.data;
+                },function (response) {
+
+                });
+            });
+        }())
+    </script>
+</head>
+<body  >
+
+<div ng-app="openCollege">
+    <div ng-controller="client">
+
+    </div>
+</div>
+
+</body>
+</html>
