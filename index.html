@@ -11,10 +11,23 @@
             app.controller('client',function ($scope,$http) {
                 $http.get('/open_college/api.php').then(function (response) {
                     $scope.members=response.data;
+                    angular.forEach(response.data,function (value, key) {
+                        if(value.expiry_date!=null){
+                            value.expiry_date=new Date(value.expiry_date);
+                        }
+                        response.data[key]=value;
+                    });
+                    $scope.members=response.data;
                 },function (response) {
-
                 });
-            });
+                $scope.f={}
+                $scope.filter_by=function (field) {
+                    $scope.f['__' + field] = true;
+                    var nowPlus30Days = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000))
+                    $scope.members.forEach(function(v) {
+                        v['__' + field] = (v[field] < nowPlus30Days && v[field]!=null); })
+                }
+            })
         }())
     </script>
 </head>
@@ -23,6 +36,7 @@
 <div ng-app="openCollege">
     <div ng-controller="client">
         <label>Enter first name or last name or phone<input type="text" ng-model="search"></label>
+        <button ng-click="filter_by('expiry_date')" >View near expired members </button>
         <table>
             <thead>
             <th>first name</th>
@@ -33,12 +47,12 @@
             <th>address</th>
             <th>email</th>
             </thead>
-            <tr ng-repeat="member in members | filterBy:['first_name', 'last_name','phone']:search">
+            <tr ng-repeat="member in members | filterBy:['first_name', 'last_name','phone']:search | filter:f">
                 <td>{{member.first_name}}</td>
                 <td>{{member.last_name}}</td>
                 <td>{{member.phone}}</td>
                 <td>{{member.member_type}}</td>
-                <td>{{member.expiry_date}}</td>
+                <td>{{member.expiry_date | date:'dd-MM-yyyy'}}</td>
                 <td>{{member.address}}</td>
                 <td>{{member.mail_address}}</td>
             </tr>

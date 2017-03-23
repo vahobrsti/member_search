@@ -11,8 +11,13 @@ for($i=3;$i<53;$i++){
     $address=$link->real_escape_string($faker->address);
     $email=$link->real_escape_string($faker->email);
     $c=rand(1,30);
+    $expiry_date='NOW()+INTERVAL '. $c .' DAY';
+    if($member_type=='guest'){
+        $phone='';
+        $expiry_date='NULL';
+    }
     $sql="INSERT INTO `members`(`id`, `first_name`, `last_name`, `phone`, `member_type`, `expiry_date`, `address`, `mail_address`)"
-         ."VALUES              (NULL,'{$first_name}','{$last_name}','{$phone}','{$member_type}',NOW()+INTERVAL $c DAY,'{$address}','{$email}')"
+         ."VALUES              (NULL,'{$first_name}','{$last_name}','{$phone}','{$member_type}',$expiry_date,'{$address}','{$email}')"
     ;
     $res=$link->query($sql);
     if($res===false){
