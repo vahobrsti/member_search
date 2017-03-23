@@ -25,7 +25,8 @@
                 $scope.filter_by=function (field) {
                     $scope.f['__' + field] = true;
                     $scope.members.forEach(function(v) {
-                        v['__' + field] = (v[field] < $scope.nowPlus30Days && v[field]!=null); })
+                        v['__' + field] = (v[field] < $scope.nowPlus30Days && v[field]!=null);
+                    })
                 }
             })
         }())
