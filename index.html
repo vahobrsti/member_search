@@ -20,12 +20,12 @@
                     $scope.members=response.data;
                 },function (response) {
                 });
-                $scope.f={}
+                $scope.nowPlus30Days = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
+                $scope.f={};
                 $scope.filter_by=function (field) {
                     $scope.f['__' + field] = true;
-                    var nowPlus30Days = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000))
                     $scope.members.forEach(function(v) {
-                        v['__' + field] = (v[field] < nowPlus30Days && v[field]!=null); })
+                        v['__' + field] = (v[field] < $scope.nowPlus30Days && v[field]!=null); })
                 }
             })
         }())
@@ -47,7 +47,7 @@
             <th>address</th>
             <th>email</th>
             </thead>
-            <tr ng-repeat="member in members | filterBy:['first_name', 'last_name','phone']:search | filter:f">
+            <tr ng-repeat="member in members | filterBy:['first_name', 'last_name','phone']:search | filter:f" ng-style="{ color: (member.expiry_date < nowPlus30Days && member.member_type!= 'guest') ? 'red' : 'black' }">
                 <td>{{member.first_name}}</td>
                 <td>{{member.last_name}}</td>
                 <td>{{member.phone}}</td>
